@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encode/Decode — Free Online Tool</title>
+    <meta name="description" content="Encode and decode Base64 instantly in your browser. Supports text and file conversion. Free, fast, no data sent to any server.">
+    <meta name="keywords" content="base64 encoder, base64 decoder, base64 online, encode base64, decode base64, file to base64">
+    <meta property="og:title" content="Base64 Encode/Decode — Free Online Tool">
+    <meta property="og:description" content="Encode and decode Base64 instantly in your browser.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Base64 Encode/Decode",
+        "description": "Encode and decode Base64 instantly in your browser.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0f1117; --surface: #1a1d27; --surface2: #242734;
+            --border: #2e3244; --text: #e1e4ed; --text-muted: #8b8fa7;
+            --accent: #6c7bf7; --accent-hover: #8b97ff;
+            --error: #f7596c; --success: #4ade80; --radius: 10px;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.5; }
+        header { text-align: center; padding: 2rem 1rem 1rem; }
+        header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+        header h1 span { color: var(--accent); }
+        header p { color: var(--text-muted); margin-top: 0.3rem; font-size: 0.95rem; }
+        .back-link { display: inline-block; margin-bottom: 0.5rem; color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+        .back-link:hover { color: var(--accent-hover); }
+        .container { max-width: 900px; margin: 0 auto; padding: 1rem 1.5rem 3rem; }
+        .mode-bar { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .mode-btn { padding: 0.5rem 1.2rem; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); border-radius: var(--radius); cursor: pointer; font-size: 0.9rem; transition: all 0.15s; }
+        .mode-btn:hover { border-color: var(--accent); color: var(--text); }
+        .mode-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        textarea { width: 100%; min-height: 180px; padding: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-family: 'SF Mono', 'Consolas', 'Monaco', monospace; font-size: 0.9rem; resize: vertical; outline: none; transition: border-color 0.15s; }
+        textarea:focus { border-color: var(--accent); }
+        textarea::placeholder { color: var(--text-muted); }
+        .label { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500; }
+        .section { margin-bottom: 1.2rem; }
+        .btn-row { display: flex; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
+        .btn { padding: 0.6rem 1.4rem; border: none; border-radius: var(--radius); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: var(--accent-hover); }
+        .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--accent); }
+        .drop-zone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 2.5rem; text-align: center; color: var(--text-muted); cursor: pointer; transition: all 0.2s; margin-bottom: 1rem; }
+        .drop-zone:hover, .drop-zone.drag-over { border-color: var(--accent); color: var(--text); background: rgba(108,123,247,0.05); }
+        .drop-zone input { display: none; }
+        .status { font-size: 0.85rem; margin-top: 0.5rem; }
+        .status.error { color: var(--error); }
+        .status.success { color: var(--success); }
+        .file-info { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        @media (max-width: 640px) { .container { padding: 1rem; } textarea { min-height: 140px; } }
+    </style>
+</head>
+<body>
+<header>
+    <a href="../" class="back-link">← Alfred's Digital Workshop</a>
+    <h1>Base64 <span>Encode / Decode</span></h1>
+    <p>Convert text or files to Base64 and back — entirely in your browser</p>
+</header>
+<div class="container">
+    <div class="mode-bar">
+        <button class="mode-btn active" data-mode="text" onclick="setMode('text')">📝 Text</button>
+        <button class="mode-btn" data-mode="file" onclick="setMode('file')">📁 File → Base64</button>
+    </div>
+
+    <div id="text-mode">
+        <div class="section">
+            <div class="label">Input (paste text or Base64)</div>
+            <textarea id="input" placeholder="Paste text to encode, or Base64 to decode…" oninput="autoConvert()"></textarea>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-primary" onclick="encode()">Encode →</button>
+            <button class="btn btn-primary" onclick="decode()">← Decode</button>
+            <button class="btn btn-secondary" onclick="swapFields()">⇄ Swap</button>
+            <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+        </div>
+        <div class="section">
+            <div class="label">Output</div>
+            <textarea id="output" placeholder="Result will appear here…" readonly></textarea>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-secondary" onclick="copyOutput()">📋 Copy Output</button>
+        </div>
+        <div id="text-status" class="status"></div>
+    </div>
+
+    <div id="file-mode" style="display:none;">
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" onchange="handleFile(this.files[0])">
+            <p style="font-size:1.5rem;margin-bottom:0.5rem;">📁</p>
+            <p>Drop a file here or click to browse</p>
+        </div>
+        <div id="file-info" class="file-info"></div>
+        <div class="section">
+            <div class="label">Base64 Output</div>
+            <textarea id="file-output" placeholder="Base64 encoded file content…" readonly></textarea>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-secondary" onclick="copyFileOutput()">📋 Copy Base64</button>
+            <button class="btn btn-secondary" onclick="copyDataUri()">📋 Copy as Data URI</button>
+        </div>
+        <div id="file-status" class="status"></div>
+    </div>
+</div>
+
+<script>
+let currentFileType = '';
+let currentFileB64 = '';
+
+function setMode(mode) {
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+    document.getElementById('text-mode').style.display = mode === 'text' ? '' : 'none';
+    document.getElementById('file-mode').style.display = mode === 'file' ? '' : 'none';
+}
+
+function isBase64(str) {
+    if (str.length < 4) return false;
+    try { return btoa(atob(str)) === str; } catch { return false; }
+}
+
+function autoConvert() {
+    const input = document.getElementById('input').value.trim();
+    if (!input) { document.getElementById('output').value = ''; setStatus('text-status', ''); return; }
+    if (isBase64(input)) { decode(); } else { encode(); }
+}
+
+function encode() {
+    try {
+        const input = document.getElementById('input').value;
+        document.getElementById('output').value = btoa(unescape(encodeURIComponent(input)));
+        setStatus('text-status', '✓ Encoded to Base64', 'success');
+    } catch (e) { setStatus('text-status', '✗ ' + e.message, 'error'); }
+}
+
+function decode() {
+    try {
+        const input = document.getElementById('input').value.trim();
+        document.getElementById('output').value = decodeURIComponent(escape(atob(input)));
+        setStatus('text-status', '✓ Decoded from Base64', 'success');
+    } catch (e) { setStatus('text-status', '✗ Invalid Base64 input', 'error'); }
+}
+
+function swapFields() {
+    const i = document.getElementById('input'), o = document.getElementById('output');
+    [i.value, o.value] = [o.value, i.value];
+    autoConvert();
+}
+
+function clearAll() {
+    document.getElementById('input').value = '';
+    document.getElementById('output').value = '';
+    setStatus('text-status', '');
+}
+
+function copyOutput() { copyText(document.getElementById('output').value, 'text-status'); }
+function copyFileOutput() { copyText(currentFileB64, 'file-status'); }
+function copyDataUri() { copyText('data:' + currentFileType + ';base64,' + currentFileB64, 'file-status'); }
+
+function copyText(text, statusId) {
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(() => setStatus(statusId, '✓ Copied!', 'success'));
+}
+
+function setStatus(id, msg, cls) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.className = 'status' + (cls ? ' ' + cls : '');
+}
+
+// File handling
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); handleFile(e.dataTransfer.files[0]); });
+
+function handleFile(file) {
+    if (!file) return;
+    document.getElementById('file-info').textContent = `${file.name} — ${(file.size / 1024).toFixed(1)} KB — ${file.type || 'unknown type'}`;
+    currentFileType = file.type || 'application/octet-stream';
+    const reader = new FileReader();
+    reader.onload = () => {
+        currentFileB64 = reader.result.split(',')[1];
+        document.getElementById('file-output').value = currentFileB64;
+        setStatus('file-status', '✓ File encoded (' + currentFileB64.length.toLocaleString() + ' chars)', 'success');
+    };
+    reader.readAsDataURL(file);
+}
+</script>
+</body>
+</html>
