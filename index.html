@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alfred's Digital Workshop — Free Tools & Premium Products</title>
+<meta name="description" content="Handcrafted developer tools and digital products. Free utilities and premium resources to level up your workflow.">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0e0e12;
+    --surface: #16161d;
+    --surface2: #1e1e28;
+    --border: #2a2a38;
+    --text: #e4e4ed;
+    --text-dim: #9090a8;
+    --accent: #7c6aff;
+    --accent2: #00d4aa;
+    --accent-glow: rgba(124, 106, 255, .15);
+    --radius: 12px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent); text-decoration: none; transition: color .2s; }
+  a:hover { color: var(--accent2); }
+
+  /* NAV */
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem;
+  }
+  .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: -.02em; }
+  .logo span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a { color: var(--text-dim); font-size: .95rem; }
+  nav ul a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    max-width: 1100px; margin: 0 auto; padding: 6rem 2rem 4rem;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 800; letter-spacing: -.03em;
+    line-height: 1.15; margin-bottom: 1.2rem;
+  }
+  .hero h1 .gradient {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    color: var(--text-dim); font-size: 1.15rem;
+    max-width: 580px; margin: 0 auto 2.5rem;
+  }
+  .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: .85rem 2rem; border-radius: 8px;
+    font-weight: 600; font-size: 1rem; transition: transform .15s, box-shadow .15s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    box-shadow: 0 4px 24px var(--accent-glow);
+  }
+  .btn-secondary {
+    background: var(--surface2); color: var(--text); border: 1px solid var(--border);
+  }
+
+  /* SECTIONS */
+  section { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
+  .section-label {
+    font-size: .8rem; text-transform: uppercase; letter-spacing: .12em;
+    color: var(--accent); font-weight: 600; margin-bottom: .5rem;
+  }
+  section h2 {
+    font-size: 2rem; font-weight: 700; margin-bottom: .6rem;
+    letter-spacing: -.02em;
+  }
+  section > p { color: var(--text-dim); margin-bottom: 2.5rem; max-width: 560px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    transition: border-color .2s, transform .2s;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .card-icon {
+    width: 48px; height: 48px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.2rem;
+  }
+  .card-icon.free { background: rgba(0, 212, 170, .12); }
+  .card-icon.premium { background: var(--accent-glow); }
+  .card h3 { font-size: 1.15rem; margin-bottom: .4rem; }
+  .card p { color: var(--text-dim); font-size: .95rem; margin-bottom: 1.2rem; }
+  .tag {
+    display: inline-block; font-size: .75rem; font-weight: 600;
+    padding: .25rem .7rem; border-radius: 20px;
+  }
+  .tag-free { background: rgba(0,212,170,.12); color: var(--accent2); }
+  .tag-paid { background: var(--accent-glow); color: var(--accent); }
+
+  /* DIVIDER */
+  .divider {
+    max-width: 1100px; margin: 0 auto;
+    border: none; border-top: 1px solid var(--border);
+  }
+
+  /* FOOTER */
+  footer {
+    max-width: 1100px; margin: 0 auto; padding: 3rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    color: var(--text-dim); font-size: .9rem;
+  }
+  footer ul { list-style: none; display: flex; gap: 1.5rem; }
+
+  @media (max-width: 640px) {
+    nav ul { gap: 1rem; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    section { padding: 3rem 1.5rem; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span>⚡</span> Alfred's Digital Workshop</div>
+  <ul>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="https://github.com/yourusername" target="_blank">GitHub</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <h1>Tools that <span class="gradient">actually help</span>.</h1>
+  <p>Free developer utilities and premium digital products — handcrafted, no bloat, ready to use.</p>
+  <div class="btn-row">
+    <a href="#tools" class="btn btn-primary">Browse Free Tools</a>
+    <a href="#products" class="btn btn-secondary">View Products</a>
+  </div>
+</header>
+
+<hr class="divider">
+
+<section id="tools">
+  <div class="section-label">Free &amp; Open</div>
+  <h2>Micro-Tools</h2>
+  <p>Small, focused utilities you can use right in your browser. No sign-up, no tracking, no nonsense.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon free">🎨</div>
+      <h3>Colour Palette Generator</h3>
+      <p>Generate harmonious colour palettes for your next project. Export as CSS variables or Tailwind config.</p>
+      <span class="tag tag-free">Free</span>
+    </div>
+    <div class="card">
+      <div class="card-icon free">📐</div>
+      <h3>CSS Grid Builder</h3>
+      <p>Visual grid layout builder. Drag, resize, and export production-ready CSS in seconds.</p>
+      <span class="tag tag-free">Free</span>
+    </div>
+    <div class="card">
+      <div class="card-icon free">⚡</div>
+      <h3>JSON Formatter</h3>
+      <p>Paste messy JSON, get clean formatted output with syntax highlighting and validation.</p>
+      <span class="tag tag-free">Free</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="products">
+  <div class="section-label">Premium</div>
+  <h2>Digital Products</h2>
+  <p>Thoughtfully built resources to save you hours. Pay once, use forever.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-icon premium">📦</div>
+      <h3>Starter Kit Pro</h3>
+      <p>A complete project boilerplate with auth, database, payments, and deployment — all pre-wired.</p>
+      <span class="tag tag-paid">Coming Soon</span>
+    </div>
+    <div class="card">
+      <div class="card-icon premium">📊</div>
+      <h3>Dashboard Templates</h3>
+      <p>Beautiful, responsive admin dashboards. Dark &amp; light themes, charts, and real component library.</p>
+      <span class="tag tag-paid">Coming Soon</span>
+    </div>
+    <div class="card">
+      <div class="card-icon premium">🛠️</div>
+      <h3>Automation Scripts Bundle</h3>
+      <p>50+ battle-tested scripts for DevOps, CI/CD, and local development. Documented and maintained.</p>
+      <span class="tag tag-paid">Coming Soon</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<footer>
+  <span>&copy; 2026 Alfred's Digital Workshop</span>
+  <ul>
+    <li><a href="https://github.com/yourusername" target="_blank">GitHub</a></li>
+    <li><a href="https://gumroad.com" target="_blank">Gumroad</a></li>
+    <li><a href="mailto:hello@example.com">Contact</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>
