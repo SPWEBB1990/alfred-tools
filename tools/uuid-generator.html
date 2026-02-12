@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UUID Generator — Free Online Tool</title>
+    <meta name="description" content="Generate v4 UUIDs instantly in your browser. Create single or bulk UUIDs with formatting options. Free, fast, no data sent to any server.">
+    <meta name="keywords" content="uuid generator, uuid v4, generate uuid online, random uuid, guid generator, bulk uuid">
+    <meta property="og:title" content="UUID Generator — Free Online Tool">
+    <meta property="og:description" content="Generate v4 UUIDs instantly in your browser.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🆔</text></svg>">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "UUID Generator",
+        "description": "Generate v4 UUIDs instantly in your browser.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0f1117; --surface: #1a1d27; --surface2: #242734;
+            --border: #2e3244; --text: #e1e4ed; --text-muted: #8b8fa7;
+            --accent: #6c7bf7; --accent-hover: #8b97ff;
+            --error: #f7596c; --success: #4ade80; --radius: 10px;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.5; }
+        header { text-align: center; padding: 2rem 1rem 1rem; }
+        header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; }
+        header h1 span { color: var(--accent); }
+        header p { color: var(--text-muted); margin-top: 0.3rem; font-size: 0.95rem; }
+        .back-link { display: inline-block; margin-bottom: 0.5rem; color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+        .back-link:hover { color: var(--accent-hover); }
+        .container { max-width: 700px; margin: 0 auto; padding: 1rem 1.5rem 3rem; }
+        .controls { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.2rem; }
+        .btn { padding: 0.6rem 1.4rem; border: none; border-radius: var(--radius); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: var(--accent-hover); }
+        .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--accent); }
+        .btn-sm { padding: 0.35rem 0.8rem; font-size: 0.8rem; }
+        .options { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+        .option { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; }
+        .option input { accent-color: var(--accent); }
+        .count-btns { display: flex; gap: 0.4rem; }
+        .count-btn { padding: 0.4rem 0.9rem; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); border-radius: var(--radius); cursor: pointer; font-size: 0.85rem; transition: all 0.15s; }
+        .count-btn:hover { border-color: var(--accent); color: var(--text); }
+        .count-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .uuid-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+        .uuid-item { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.6rem 1rem; font-family: 'SF Mono', 'Consolas', monospace; font-size: 0.9rem; transition: border-color 0.15s; }
+        .uuid-item:hover { border-color: var(--accent); }
+        .uuid-item .copy-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; padding: 0.2rem; transition: color 0.15s; }
+        .uuid-item .copy-btn:hover { color: var(--accent); }
+        .uuid-item .copy-btn.copied { color: var(--success); }
+        .status { font-size: 0.85rem; margin-top: 0.8rem; color: var(--success); min-height: 1.3em; }
+        .section-label { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500; }
+        @media (max-width: 640px) { .container { padding: 1rem; } .uuid-item { font-size: 0.78rem; padding: 0.5rem 0.7rem; } }
+    </style>
+</head>
+<body>
+<header>
+    <a href="../" class="back-link">← Alfred's Digital Workshop</a>
+    <h1>UUID <span>Generator</span></h1>
+    <p>Generate random v4 UUIDs instantly — entirely in your browser</p>
+</header>
+<div class="container">
+    <div class="section-label">How many?</div>
+    <div class="count-btns" style="margin-bottom:1rem;">
+        <button class="count-btn active" onclick="setCount(1)">1</button>
+        <button class="count-btn" onclick="setCount(5)">5</button>
+        <button class="count-btn" onclick="setCount(10)">10</button>
+        <button class="count-btn" onclick="setCount(50)">50</button>
+    </div>
+
+    <div class="options">
+        <label class="option"><input type="checkbox" id="optUpper" onchange="regenerate()"> Uppercase</label>
+        <label class="option"><input type="checkbox" id="optNoHyphens" onchange="regenerate()"> No hyphens</label>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-primary" onclick="regenerate()">🎲 Generate</button>
+        <button class="btn btn-secondary" onclick="copyAll()">📋 Copy All</button>
+    </div>
+
+    <ul class="uuid-list" id="uuidList"></ul>
+    <div class="status" id="status"></div>
+</div>
+
+<script>
+let count = 1;
+
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = crypto.getRandomValues(new Uint8Array(1))[0] & (c === 'x' ? 15 : 3) | (c === 'y' ? 8 : 0);
+        return r.toString(16);
+    });
+}
+
+function format(uuid) {
+    let u = uuid;
+    if (document.getElementById('optNoHyphens').checked) u = u.replace(/-/g, '');
+    if (document.getElementById('optUpper').checked) u = u.toUpperCase();
+    return u;
+}
+
+function setCount(n) {
+    count = n;
+    document.querySelectorAll('.count-btn').forEach(b => b.classList.toggle('active', parseInt(b.textContent) === n));
+    regenerate();
+}
+
+function regenerate() {
+    const list = document.getElementById('uuidList');
+    list.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+        const uuid = format(uuidv4());
+        const li = document.createElement('li');
+        li.className = 'uuid-item';
+        li.innerHTML = `<span>${uuid}</span><button class="copy-btn" onclick="copySingle(this, '${uuid}')">📋</button>`;
+        list.appendChild(li);
+    }
+    document.getElementById('status').textContent = `Generated ${count} UUID${count > 1 ? 's' : ''}`;
+}
+
+function copySingle(btn, uuid) {
+    navigator.clipboard.writeText(uuid).then(() => {
+        btn.textContent = '✓';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = '📋'; btn.classList.remove('copied'); }, 1200);
+    });
+}
+
+function copyAll() {
+    const uuids = [...document.querySelectorAll('.uuid-item span')].map(s => s.textContent).join('\n');
+    if (!uuids) return;
+    navigator.clipboard.writeText(uuids).then(() => {
+        document.getElementById('status').textContent = '✓ All copied to clipboard!';
+    });
+}
+
+regenerate();
+</script>
+</body>
+</html>
